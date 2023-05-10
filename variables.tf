@@ -1,4 +1,4 @@
-variable "project_name" {
+variable "waypoint_project" {
   type        = string
   description = "Name of the Waypoint project."
 }
