@@ -12,5 +12,5 @@ variable "template_repo_name" {
 
 variable "github_token" {
   type      = string
-  sensitive = true
+  sensitive = false
 }
