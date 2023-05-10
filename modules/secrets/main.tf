@@ -18,7 +18,7 @@ resource "vault_aws_auth_backend_role" "vault_dev_aws_auth_backend_role" {
 # TODO: How to assign GetCallerIdentity permission
 resource "vault_aws_auth_backend_role" "vault_prod_aws_auth_backend_role" {
   provider  = vault.prod
-  backend   = var.prod_db_secrets_engine_policy_name
+  backend   = var.vault_prod_aws_auth_method_path
   role      = "app"
   auth_type = "iam"
 
