@@ -98,8 +98,8 @@ module "prod" {
   vpc_id           = data.tfe_outputs.org_day_zero_infra.values.vpc_id["prod"]
   public_subnets   = data.tfe_outputs.org_day_zero_infra.values.private_subnets["prod"]
   private_subnets  = data.tfe_outputs.org_day_zero_infra.values.public_subnets["prod"]
-  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.values.ecs_cluster_name["prod"]
-  log_group_name   = data.tfe_outputs.org_day_zero_infra.values.log_group_name["prod"]
+  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.ecs_cluster_name["prod"]
+  log_group_name   = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.log_group_name["prod"]
 
   tags = {
     env      = "prod"

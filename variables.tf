@@ -13,8 +13,8 @@ EOF
 }
 
 variable "prod_vault_token" {
-  sensitive = true
-  type      = string
+  sensitive   = true
+  type        = string
   description = <<EOF
 The Vault token to be used for creating the database secrets engine, KV secrets
 engine, policies, and other resources in the dev Vault cluster.
@@ -22,18 +22,18 @@ EOF
 }
 
 variable "dev_vault_address" {
-  type = string
+  type        = string
   description = "The address of the dev Vault cluster."
 }
 
 variable "prod_vault_address" {
-  type = string
+  type        = string
   description = "The address of the prod Vault cluster."
 }
 
 variable "aws_account_id" {
-  type      = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "The ID of the AWS account used for the AWS auth method in Vault."
 }
 
@@ -57,16 +57,16 @@ variable "aws_region" {
 }
 
 variable "tfc_org" {
-  type = string
+  type        = string
   description = "The TFC organization to use for remote state output."
 }
 
 variable "day_zero_infra_tfc_workspace_name" {
-  type = string
+  type        = string
   description = "The TFC workspace to use for remote state output for day zero org infra."
 }
 
 variable "vault_tfc_workspace_name" {
-  type = string
+  type        = string
   description = "The TFC workspace to use for remote state output for Vault."
 }
