@@ -2,7 +2,7 @@
 # Actions
 module "ci" {
   source             = "./modules/ci"
-  repo_name          = var.project_name
+  repo_name          = var.waypoint_project
   template_repo_name = "waypoint-template-go-protobuf-api"
   github_org_name    = "HashiCorp-Sandbox"
   github_token       = var.github_token
@@ -16,7 +16,7 @@ module "database" {
     vault.prod = vault.prod
   }
   source          = "./modules/database"
-  app_name        = var.project_name
+  app_name        = var.waypoint_project
   dev_db_subnets  = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.database_subnets["dev"]
   prod_db_subnets = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.database_subnets["prod"]
   dev_vpc_id      = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.vpc_id["dev"]
@@ -32,7 +32,7 @@ module "secrets" {
     vault.prod = vault.prod
   }
   source                             = "./modules/secrets"
-  app_name                           = var.project_name
+  app_name                           = var.waypoint_project
   dev_db_secrets_engine_policy_name  = module.database.dev_db_secrets_engine_policy_name
   prod_db_secrets_engine_policy_name = module.database.prod_db_secrets_engine_policy_name
   vault_dev_aws_auth_method_path     = data.tfe_outputs.vault.values.vault_dev_aws_auth_method_path
@@ -43,7 +43,7 @@ module "secrets" {
 # Creates dashboards and alerts
 #module "telemetry" {
 #  source         = "./telemetry"
-#  app_name       = var.project_name
+#  app_name       = var.waypoint_project
 #  aws_account_id = var.aws_account_id
 #}
 
@@ -53,7 +53,7 @@ module "dev" {
   version = "0.0.1"
 
   # App-specific config
-  waypoint_project = var.project_name
+  waypoint_project = var.waypoint_project
   application_port = 3000 # TODO(izaak): allow to be configured via input variables. It's pretty draconian to not allow app devs to choose this.
 
   waypoint_workspace = "dev"
@@ -74,7 +74,7 @@ module "dev" {
     env      = "dev"
     corp     = "acmecorp"
     workload = "microservice"
-    project  = var.project_name
+    project  = var.waypoint_project
   }
 }
 
@@ -84,7 +84,7 @@ module "prod" {
   version = "0.0.1"
 
   # App-specific config
-  waypoint_project = var.project_name
+  waypoint_project = var.waypoint_project
   application_port = 3000 # TODO(izaak): allow to be configured via input variables. It's pretty draconian to not allow app devs to choose this.
 
   waypoint_workspace = "prod"
@@ -105,7 +105,7 @@ module "prod" {
     env      = "prod"
     corp     = "acmecorp"
     workload = "microservice"
-    project  = var.project_name
+    project  = var.waypoint_project
   }
 }
 
