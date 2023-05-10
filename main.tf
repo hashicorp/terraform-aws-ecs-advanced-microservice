@@ -1,7 +1,7 @@
 # Creates the app code repo from a template with CI configured for GitHub
 # Actions
 module "ci" {
-  source             = "./ci"
+  source             = "./modules/ci"
   repo_name          = var.project_name
   template_repo_name = "waypoint-template-go-protobuf-api"
   github_org_name    = "HashiCorp-Sandbox"
@@ -15,7 +15,7 @@ module "database" {
     vault.dev  = vault.dev
     vault.prod = vault.prod
   }
-  source          = "./database"
+  source          = "./modules/database"
   app_name        = var.project_name
   dev_db_subnets  = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.database_subnets["dev"]
   prod_db_subnets = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.database_subnets["prod"]
@@ -31,7 +31,7 @@ module "secrets" {
     vault.dev  = vault.dev
     vault.prod = vault.prod
   }
-  source                             = "./secrets"
+  source                             = "./modules/secrets"
   app_name                           = var.project_name
   dev_db_secrets_engine_policy_name  = module.database.dev_db_secrets_engine_policy_name
   prod_db_secrets_engine_policy_name = module.database.prod_db_secrets_engine_policy_name
