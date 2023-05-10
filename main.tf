@@ -17,11 +17,11 @@ module "database" {
   }
   source          = "./modules/database"
   app_name        = var.waypoint_project
-  dev_db_subnets  = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.database_subnets["dev"]
-  prod_db_subnets = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.database_subnets["prod"]
-  dev_vpc_id      = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.vpc_id["dev"]
-  prod_vpc_id     = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.vpc_id["prod"]
-  vault_cidr      = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.hvn_cidr_block
+  dev_db_subnets  = data.tfe_outputs.org_day_zero_infra.values.database_subnets["dev"]
+  prod_db_subnets = data.tfe_outputs.org_day_zero_infra.values.database_subnets["prod"]
+  dev_vpc_id      = data.tfe_outputs.org_day_zero_infra.values.vpc_id["dev"]
+  prod_vpc_id     = data.tfe_outputs.org_day_zero_infra.values.vpc_id["prod"]
+  vault_cidr      = data.tfe_outputs.org_day_zero_infra.values.hvn_cidr_block
 }
 
 # Creates dev and prod Vault resources, which will enable Waypoint to auth to
@@ -64,11 +64,11 @@ module "dev" {
 
   # Existing infrastructure
   aws_region       = var.aws_region
-  vpc_id           = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.vpc_id["dev"]
-  public_subnets   = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.private_subnets["dev"]
-  private_subnets  = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.public_subnets["dev"]
-  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.ecs_cluster_name["dev"]
-  log_group_name   = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.log_group_name["dev"]
+  vpc_id           = data.tfe_outputs.org_day_zero_infra.values.vpc_id["dev"]
+  public_subnets   = data.tfe_outputs.org_day_zero_infra.values.private_subnets["dev"]
+  private_subnets  = data.tfe_outputs.org_day_zero_infra.values.public_subnets["dev"]
+  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.values.ecs_cluster_name["dev"]
+  log_group_name   = data.tfe_outputs.org_day_zero_infra.values.log_group_name["dev"]
 
   tags = {
     env      = "dev"
@@ -95,11 +95,11 @@ module "prod" {
 
   # Existing infrastructure
   aws_region       = var.aws_region
-  vpc_id           = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.vpc_id["prod"]
-  public_subnets   = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.private_subnets["prod"]
-  private_subnets  = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.public_subnets["prod"]
-  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.ecs_cluster_name["prod"]
-  log_group_name   = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.log_group_name["prod"]
+  vpc_id           = data.tfe_outputs.org_day_zero_infra.values.vpc_id["prod"]
+  public_subnets   = data.tfe_outputs.org_day_zero_infra.values.private_subnets["prod"]
+  private_subnets  = data.tfe_outputs.org_day_zero_infra.values.public_subnets["prod"]
+  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.values.ecs_cluster_name["prod"]
+  log_group_name   = data.tfe_outputs.org_day_zero_infra.values.log_group_name["prod"]
 
   tags = {
     env      = "prod"
