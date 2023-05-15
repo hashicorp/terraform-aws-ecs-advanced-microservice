@@ -1,8 +1,18 @@
+#!/bin/bash
 # This script requires the git CLI, sed, and rename in order to function
+set -x
+
+# Installs rename
+mkdir /tmp/install-rename
+curl -o /tmp/install-rename/utils.deb http://launchpadlibrarian.net/360849155/util-linux_2.31.1-0.4ubuntu3_amd64.deb
+dpkg -x /tmp/install-rename/utils.deb /tmp/install-rename
+PATH=$PATH://tmp/install-rename/usr/bin/
+
+# Change to world-writeable path /tmp, so that sed works
+cd /tmp
 
 # Clones the templated repo to the provisioner execution environment via HTTPS
 git clone https://oauth2:"$GITHUB_TOKEN"@github.com/"$OWNER"/"$WAYPOINT_PROJECT_NAME"
-
 cd "$WAYPOINT_PROJECT_NAME"
 
 # Finds all usages of %%wp_project%% in files and replaces with our project name
@@ -15,13 +25,14 @@ find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%gh_org%%/$OWNER/" {}
 find . -name "*.bak" -type f -delete
 
 # Finds and renames directories with our project name where __wp_project__ is found
-find . -depth -type d -execdir rename "s/__wp_project__/$WAYPOINT_PROJECT_NAME/" {} +
+find . -depth -type d -execdir rename.ul __wp_project__ $WAYPOINT_PROJECT_NAME {} +
 
 # Finds and renames files with our project name where __wp_project__ is found
-find . -type f -exec rename "s/__wp_project__/$WAYPOINT_PROJECT_NAME/" {} +
+find . -type f -exec rename.ul __wp_project__ $WAYPOINT_PROJECT_NAME {} +
 
-# Enables push with HTTPS
-git remote add origin https://"$GITHUB_TOKEN"/"$OWNER"/"$WAYPOINT_PROJECT_NAME".git/
+# git needs a user for the commit
+git config user.name "terraform"
+git config user.email "team-waypoint@hashicorp.com"
 
 # Add, commit, and push!
 git add .

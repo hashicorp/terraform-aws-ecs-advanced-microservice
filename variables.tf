@@ -52,6 +52,22 @@ delete repos.
 EOF
 }
 
+variable "git_user" {
+  type        = string
+  description = "The user for the git commit which renders the repo template."
+}
+
+variable "git_email" {
+  type        = string
+  description = "The email address for the git commit which renders the repo template."
+}
+
+variable "git_repo_visibility" {
+  type        = string
+  description = "The visibility of the new GitHub repo. Must be 'private', 'internal', or 'public'."
+  default     = "public"
+}
+
 variable "aws_region" {
   default = "us-east-2"
 }

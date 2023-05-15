@@ -1,7 +1,7 @@
 resource "github_repository" "templated_app_repository" {
   name = var.repo_name
 
-  visibility = "public"
+  visibility = var.git_repo_visibility
 
   template {
     owner                = var.github_org_name

@@ -4,8 +4,11 @@ module "ci" {
   source             = "./modules/ci"
   repo_name          = var.waypoint_project
   template_repo_name = "waypoint-template-go-protobuf-api"
-  github_org_name    = "HashiCorp-Sandbox"
+  github_org_name    = var.github_repo_owner
   github_token       = var.github_token
+  git_user           = var.git_user
+  git_email          = var.git_email
+  git_repo_visibility = var.git_repo_visibility
 }
 
 # Creates dev and prod DBs, as well as a Vault mount for a database secrets
