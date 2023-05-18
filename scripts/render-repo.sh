@@ -16,10 +16,10 @@ git clone https://oauth2:"$GITHUB_TOKEN"@github.com/"$OWNER"/"$WAYPOINT_PROJECT_
 cd "$WAYPOINT_PROJECT_NAME"
 
 # Finds all usages of %%wp_project%% in files and replaces with our project name
-find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%[Ww]p_project%%/$WAYPOINT_PROJECT_NAME/" {} \;
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%[Ww]p_project%%/$WAYPOINT_PROJECT_NAME/g" {} \;
 
 # Finds all usages of %%gh_org%% in the files and replaces with our GitHub owner name
-find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%gh_org%%/$OWNER/" {} \;
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%gh_org%%/$OWNER/g" {} \;
 
 # Cleans up backup files from sed
 find . -name "*.bak" -type f -delete
