@@ -20,6 +20,16 @@ resource "github_repository" "templated_app_repository" {
       GIT_EMAIL             = var.git_email
     }
   }
+
+  provisioner "local-exec" {
+    command     = "./scripts/trigger-repo-init.sh"
+    interpreter = ["bash"]
+    environment = {
+      WAYPOINT_PROJECT_NAME = var.repo_name
+      GITHUB_TOKEN          = var.github_token
+      OWNER                 = var.github_org_name
+    }
+  }
 }
 
 data "aws_iam_policy_document" "assume_role" {
