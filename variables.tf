@@ -86,3 +86,13 @@ variable "vault_tfc_workspace_name" {
   type        = string
   description = "The TFC workspace to use for remote state output for Vault."
 }
+
+variable "datadog_api_key" {
+  type = string
+  sensitive = true
+}
+
+variable "datadog_app_key" {
+  type = string
+  sensitive = true
+}

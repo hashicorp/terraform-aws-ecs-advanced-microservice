@@ -26,6 +26,8 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type        = "Federated"
+      // TODO: Pull the ARN of the OIDC provider from the day zero infra module,
+      // instead of interpolating it here
       identifiers = ["arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"]
     }
 

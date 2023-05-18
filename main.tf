@@ -46,11 +46,11 @@ module "secrets" {
 }
 
 # Creates dashboards and alerts
-#module "telemetry" {
-#  source         = "./telemetry"
-#  app_name       = var.waypoint_project
-#  aws_account_id = var.aws_account_id
-#}
+module "telemetry" {
+  source         = "./modules/telemetry"
+  app_name       = var.waypoint_project
+  aws_account_id = var.aws_account_id
+}
 
 # Creates resources for application to run in a dev environment
 module "dev" {

@@ -7,10 +7,12 @@ provider "github" {
   owner = var.github_repo_owner
   token = var.github_token
 }
-#
-#provider "datadog" {
-#  # Set "DD_API_KEY" env var
-#}
+
+provider "datadog" {
+  api_key = var.datadog_api_key
+  app_key = var.datadog_app_key
+  validate = true
+}
 
 # TODO: Enable authentication of Terraform to Vault without necessity of root token
 provider "vault" {
