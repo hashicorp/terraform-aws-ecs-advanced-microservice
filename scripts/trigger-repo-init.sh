@@ -14,4 +14,5 @@ curl -L \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer $GITHUB_TOKEN"\
   -H "X-GitHub-Api-Version: 2022-11-28" \
-  "https://api.github.com/repos/${OWNER}/${WAYPOINT_PROJECT_NAME}/actions/workflows/${ACTION_ID}/dispatches"
+  "https://api.github.com/repos/${OWNER}/${WAYPOINT_PROJECT_NAME}/actions/workflows/${ACTION_ID}/dispatches" \
+  -d "{\"ref\": \"main\"}"
