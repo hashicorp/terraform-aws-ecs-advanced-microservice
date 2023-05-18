@@ -1,6 +1,11 @@
 variable "waypoint_project" {
   type        = string
   description = "Name of the Waypoint project."
+
+  validation {
+    condition     = !contains(["-"], var.waypoint_project)
+    error_message = "waypoint_project must not contain dashes."
+  }
 }
 
 variable "dev_vault_token" {
@@ -88,11 +93,11 @@ variable "vault_tfc_workspace_name" {
 }
 
 variable "datadog_api_key" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "datadog_app_key" {
-  type = string
+  type      = string
   sensitive = true
 }
