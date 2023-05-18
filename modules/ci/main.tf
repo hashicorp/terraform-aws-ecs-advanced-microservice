@@ -6,7 +6,7 @@ resource "github_repository" "templated_app_repository" {
   template {
     owner                = var.github_org_name
     repository           = var.template_repo_name
-    include_all_branches = true
+    include_all_branches = false
   }
 
   provisioner "local-exec" {

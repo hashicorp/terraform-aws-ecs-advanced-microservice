@@ -44,7 +44,7 @@ variable "aws_account_id" {
 
 variable "github_token" {
   type        = string
-  sensitive   = false
+  sensitive   = true
   description = "The token used to copy a GitHub repo template for the new Waypoint project's repo."
 }
 
