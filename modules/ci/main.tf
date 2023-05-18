@@ -16,6 +16,8 @@ resource "github_repository" "templated_app_repository" {
       WAYPOINT_PROJECT_NAME = var.repo_name
       GITHUB_TOKEN          = var.github_token
       OWNER                 = var.github_org_name
+      GIT_USER              = var.git_user
+      GIT_EMAIL             = var.git_email
     }
   }
 }
@@ -25,7 +27,7 @@ data "aws_iam_policy_document" "assume_role" {
     effect = "Allow"
 
     principals {
-      type        = "Federated"
+      type = "Federated"
       // TODO: Pull the ARN of the OIDC provider from the day zero infra module,
       // instead of interpolating it here
       identifiers = ["arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"]

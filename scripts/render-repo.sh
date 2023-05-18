@@ -31,8 +31,8 @@ find . -depth -type d -execdir rename.ul __wp_project__ $WAYPOINT_PROJECT_NAME {
 find . -type f -exec rename.ul __wp_project__ $WAYPOINT_PROJECT_NAME {} +
 
 # git needs a user for the commit
-git config user.name "terraform"
-git config user.email "team-waypoint@hashicorp.com"
+git config user.name "$GIT_USER"
+git config user.email "$GIT_EMAIL"
 
 # Add, commit, and push!
 git add .
