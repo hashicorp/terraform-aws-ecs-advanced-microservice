@@ -41,3 +41,14 @@ variable "aws_account_id" {
   sensitive   = true
   description = "The ID of the AWS account used for the AWS auth method in Vault."
 }
+
+variable "waypoint_address" {
+  type        = string
+  description = "The address of the Waypoint server. This will be stored in the new repo's secrets."
+  sensitive   = true
+}
+variable "waypoint_token" {
+  type        = string
+  description = "A Waypoint token with access to your server. This will be stored in the new repo's secrets."
+  sensitive   = true
+}

@@ -28,7 +28,7 @@ find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%gh_org%%/$OWNER/g" {
 find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%aws_region%%/$AWS_REGION/g" {} \;
 
 # Finds all usages of %%role_arn%% in the files and replaces with our role ARN
-find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%aws_region%%/ROLE_ARN/g" {} \;
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%role_arn%%/$ROLE_ARN/g" {} \;
 
 # Cleans up backup files from sed
 find . -name "*.bak" -type f -delete

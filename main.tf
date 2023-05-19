@@ -11,6 +11,8 @@ module "ci" {
   git_repo_visibility = var.git_repo_visibility
   aws_region          = var.aws_region
   aws_account_id      = var.aws_account_id
+  waypoint_token      = var.waypoint_token
+  waypoint_address    = var.waypoint_address
 }
 
 # Creates dev and prod DBs, as well as a Vault mount for a database secrets
