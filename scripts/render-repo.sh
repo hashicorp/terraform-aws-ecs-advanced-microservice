@@ -18,8 +18,17 @@ cd "$WAYPOINT_PROJECT_NAME"
 # Finds all usages of %%wp_project%% in files and replaces with our project name
 find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%[Ww]p_project%%/$WAYPOINT_PROJECT_NAME/g" {} \;
 
+# Finds all usages of %%wp_project_lower%% in files and replaces with our project name, but lowercased
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%wp_project_lower%%/$WAYPOINT_PROJECT_NAME_LOWER/g" {} \;
+
 # Finds all usages of %%gh_org%% in the files and replaces with our GitHub owner name
 find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%gh_org%%/$OWNER/g" {} \;
+
+# Finds all usages of %%aws_region%% in the files and replaces with our AWS region
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%aws_region%%/$AWS_REGION/g" {} \;
+
+# Finds all usages of %%role_arn%% in the files and replaces with our role ARN
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%aws_region%%/ROLE_ARN/g" {} \;
 
 # Cleans up backup files from sed
 find . -name "*.bak" -type f -delete

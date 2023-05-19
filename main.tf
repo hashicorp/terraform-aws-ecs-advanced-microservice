@@ -58,8 +58,8 @@ module "dev" {
   version = "0.0.1"
 
   # App-specific config
-  waypoint_project = var.waypoint_project
-  application_port = 3000 # TODO(izaak): allow to be configured via input variables. It's pretty draconian to not allow app devs to choose this.
+  waypoint_project = local.lowercased_waypoint_project
+  application_port = 8080 # TODO(izaak): allow to be configured via input variables. It's pretty draconian to not allow app devs to choose this.
 
   waypoint_workspace = "dev"
 
@@ -89,14 +89,15 @@ module "prod" {
   version = "0.0.1"
 
   # App-specific config
-  waypoint_project = var.waypoint_project
-  application_port = 3000 # TODO(izaak): allow to be configured via input variables. It's pretty draconian to not allow app devs to choose this.
+  waypoint_project = local.lowercased_waypoint_project
+  application_port = 8080 # TODO(izaak): allow to be configured via input variables. It's pretty draconian to not allow app devs to choose this.
 
   waypoint_workspace = "prod"
 
   # Module config
-  alb_internal = false
-  create_ecr   = true
+  alb_internal     = false
+  create_ecr       = true
+  force_delete_ecr = true
 
   # Existing infrastructure
   aws_region       = var.aws_region

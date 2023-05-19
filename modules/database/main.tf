@@ -47,7 +47,7 @@ resource "aws_security_group" "prod_vault_ingress" {
 module "dev_database" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier             = "${var.app_name}-dev-database"
+  identifier             = lower("${var.app_name}-dev-database")
   engine                 = "postgres"
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group
@@ -66,7 +66,7 @@ module "dev_database" {
 module "prod_database" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier             = "${var.app_name}-prod-database"
+  identifier             = lower("${var.app_name}-prod-database")
   engine                 = "postgres"
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group

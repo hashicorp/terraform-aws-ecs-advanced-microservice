@@ -14,10 +14,14 @@ resource "github_repository" "templated_app_repository" {
     interpreter = ["bash"]
     environment = {
       WAYPOINT_PROJECT_NAME = var.repo_name
+      # the lower-cased version of the project name is needed for AWS ECR login
+      WAYPOINT_PROJECT_NAME_LOWER = lower(var.repo_name)
       GITHUB_TOKEN          = var.github_token
       OWNER                 = var.github_org_name
       GIT_USER              = var.git_user
       GIT_EMAIL             = var.git_email
+      AWS_REGION            = var.aws_region
+      ROLE_ARN              = aws_iam_role.github_actions_role.arn
     }
   }
 
@@ -38,8 +42,7 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type = "Federated"
-      // TODO: Pull the ARN of the OIDC provider from the day zero infra module,
-      // instead of interpolating it here
+      // TODO: Pull the ARN of the OIDC provider from the day zero infra module, instead of interpolating it here
       identifiers = ["arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com"]
     }
 
@@ -68,33 +71,21 @@ data "aws_iam_policy_document" "policy" {
   statement {
     effect = "Allow"
     actions = [
-      "ecr:DescribeImageScanFindings",
-      "ecr:GetLifecyclePolicyPreview",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:DescribeImageReplicationStatus",
-      "ecr:ListTagsForResource",
-      "ecr:BatchGetRepositoryScanningConfiguration",
-      "ecr:PutImage",
-      "ecr:BatchGetImage",
-      "ecr:DescribeRepositories",
+      "ecr:CompleteLayerUpload",
+      "ecr:UploadLayerPart",
       "ecr:InitiateLayerUpload",
       "ecr:BatchCheckLayerAvailability",
-      "ecr:GetRepositoryPolicy",
-      "ecr:GetLifecyclePolicy"
+      "ecr:PutImage"
     ]
+    ## TODO: Use an input var with the ARN of the ECR, rather than constructing it here
     resources = [
-      "arn:aws:ecr:${var.aws_region}:${var.aws_account_id}:repository/${var.repo_name}"
+      "arn:aws:ecr:${var.aws_region}:${var.aws_account_id}:repository/${lower(var.repo_name)}"
     ]
   }
 
   statement {
-    effect = "Allow"
-    actions = [
-      "ecr:GetRegistryPolicy",
-      "ecr:DescribeRegistry",
-      "ecr:GetAuthorizationToken",
-      "ecr:GetRegistryScanningConfiguration"
-    ]
+    effect    = "Allow"
+    actions   = ["ecr:GetAuthorizationToken"]
     resources = ["*"]
   }
 }
