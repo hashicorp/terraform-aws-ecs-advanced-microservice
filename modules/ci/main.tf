@@ -21,7 +21,8 @@ resource "github_repository" "templated_app_repository" {
       GIT_USER                    = var.git_user
       GIT_EMAIL                   = var.git_email
       AWS_REGION                  = var.aws_region
-      ROLE_ARN                    = aws_iam_role.github_actions_role.arn
+      ROLE_NAME                   = local.github_role_name
+      AWS_ACCOUNT_ID              = var.aws_account_id
     }
   }
 
@@ -39,13 +40,13 @@ resource "github_repository" "templated_app_repository" {
 resource "github_actions_secret" "waypoint_address_gha_secret" {
   repository      = github_repository.templated_app_repository.name
   secret_name     = "WAYPOINT_SERVER_ADDR"
-  encrypted_value = var.waypoint_address
+  encrypted_value = var.encrypted_waypoint_address
 }
 
 resource "github_actions_secret" "waypoint_token_gha_secret" {
   repository      = github_repository.templated_app_repository.name
   secret_name     = "WAYPOINT_SERVER_TOKEN"
-  encrypted_value = var.waypoint_token
+  encrypted_value = var.encrypted_waypoint_token
 }
 
 data "aws_iam_policy_document" "assume_role" {
@@ -75,7 +76,7 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "github_actions_role" {
-  name               = "${var.repo_name}-github-actions-role"
+  name               = local.github_role_name
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 

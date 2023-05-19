@@ -27,8 +27,11 @@ find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%gh_org%%/$OWNER/g" {
 # Finds all usages of %%aws_region%% in the files and replaces with our AWS region
 find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%aws_region%%/$AWS_REGION/g" {} \;
 
-# Finds all usages of %%role_arn%% in the files and replaces with our role ARN
-find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%role_arn%%/$ROLE_ARN/g" {} \;
+# Finds all usages of %%role_name%% in the files and replaces with our role name
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%role_name%%/$ROLE_NAME/g" {} \;
+
+# Finds all usages of %%aws_account_id%% in the files and replaces with our AWS account ID
+find . -type f -not -path '*/\.git/*' -exec sed -i.bak "s/%%aws_account_id%%/$AWS_ACCOUNT_ID/g" {} \;
 
 # Cleans up backup files from sed
 find . -name "*.bak" -type f -delete
