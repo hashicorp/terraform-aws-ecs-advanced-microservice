@@ -39,13 +39,13 @@ resource "github_repository_environment" "waypoint_environment" {
 
 resource "github_actions_environment_secret" "waypoint_secrets" {
   for_each = {
-    WAYPOINT_SERVER_ADDR  = var.encrypted_waypoint_address
-    WAYPOINT_SERVER_TOKEN = var.encrypted_waypoint_token
+    WAYPOINT_SERVER_ADDR  = var.waypoint_address
+    WAYPOINT_SERVER_TOKEN = var.waypoint_token
   }
   environment     = github_repository_environment.waypoint_environment.environment
   repository      = github_repository.templated_app_repository.name
   secret_name     = each.key
-  encrypted_value = each.value
+  plaintext_value = each.value
 }
 
 data "aws_iam_policy_document" "assume_role" {
