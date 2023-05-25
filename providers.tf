@@ -28,3 +28,5 @@ provider "vault" {
 }
 
 provider "tfe" {}
+
+provider "tls" {}

@@ -54,6 +54,33 @@ module "telemetry" {
   aws_account_id = var.aws_account_id
 }
 
+resource "tls_private_key" "tls_private_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "tls_self_signed_cert" "tls_cert" {
+  private_key_pem = tls_private_key.tls_private_key.private_key_pem
+
+  subject {
+    common_name  = "megaton.com"
+    organization = "Vault-Tec"
+  }
+
+  validity_period_hours = 1460
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "server_auth",
+  ]
+}
+
+resource "aws_acm_certificate" "alb_cert" {
+  private_key      = tls_private_key.tls_private_key.private_key_pem
+  certificate_body = tls_self_signed_cert.tls_cert.cert_pem
+}
+
 # Creates resources for application to run in a dev environment
 module "dev" {
   source  = "hashicorp/waypoint-ecs/aws"
@@ -97,8 +124,8 @@ module "prod" {
   waypoint_workspace = "prod"
 
   # Module config
-  alb_internal     = false
-  create_ecr       = true
+  alb_internal = false
+  create_ecr   = true
   force_delete_ecr = true
 
   # Existing infrastructure
@@ -117,4 +144,5 @@ module "prod" {
   }
 }
 
+# TODO: Add HTTPS rule to SG for ALB
 ## TODO: Waypoint config sources for the two Vault clusters, Waypoint runners, and runner profiles
