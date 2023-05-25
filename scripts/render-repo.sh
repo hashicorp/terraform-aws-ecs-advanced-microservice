@@ -2,6 +2,15 @@
 # This script requires the git CLI, sed, and rename in order to function
 set -x
 
+# Configure git
+git config --global user.name "$GIT_USER"
+git config --global user.email "$GIT_EMAIL"
+
+# Clone template repo, and push duplicate repo
+git clone --bare https://oauth2:"$GITHUB_TOKEN"@github.com/"$OWNER"/"$TEMPLATE_REPO_NAME"
+cd "$TEMPLATE_REPO_NAME".git
+git push --mirror https://oauth2:"$GITHUB_TOKEN"@github.com/"$OWNER"/"$WAYPOINT_PROJECT_NAME"
+
 # Installs rename
 mkdir /tmp/install-rename
 curl -o /tmp/install-rename/utils.deb http://launchpadlibrarian.net/360849155/util-linux_2.31.1-0.4ubuntu3_amd64.deb
@@ -41,10 +50,6 @@ find . -depth -type d -execdir rename.ul __wp_project__ $WAYPOINT_PROJECT_NAME {
 
 # Finds and renames files with our project name where __wp_project__ is found
 find . -type f -exec rename.ul __wp_project__ $WAYPOINT_PROJECT_NAME {} +
-
-# git needs a user for the commit
-git config user.name "$GIT_USER"
-git config user.email "$GIT_EMAIL"
 
 # Add, commit, and push!
 git add .

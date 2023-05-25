@@ -3,12 +3,6 @@ resource "github_repository" "templated_app_repository" {
 
   visibility = var.git_repo_visibility
 
-  template {
-    owner                = var.github_org_name
-    repository           = var.template_repo_name
-    include_all_branches = false
-  }
-
   provisioner "local-exec" {
     command     = "./scripts/render-repo.sh"
     interpreter = ["bash"]
@@ -18,6 +12,7 @@ resource "github_repository" "templated_app_repository" {
       WAYPOINT_PROJECT_NAME_LOWER = lower(var.repo_name)
       GITHUB_TOKEN                = var.github_token
       OWNER                       = var.github_org_name
+      TEMPLATE_REPO_NAME          = var.template_repo_name
       GIT_USER                    = var.git_user
       GIT_EMAIL                   = var.git_email
       AWS_REGION                  = var.aws_region
@@ -37,16 +32,20 @@ resource "github_repository" "templated_app_repository" {
   }
 }
 
-resource "github_actions_secret" "waypoint_address_gha_secret" {
-  repository      = github_repository.templated_app_repository.name
-  secret_name     = "WAYPOINT_SERVER_ADDR"
-  encrypted_value = var.encrypted_waypoint_address
+resource "github_repository_environment" "waypoint_environment" {
+  environment = "waypoint"
+  repository  = github_repository.templated_app_repository.name
 }
 
-resource "github_actions_secret" "waypoint_token_gha_secret" {
+resource "github_actions_environment_secret" "waypoint_secrets" {
+  for_each = {
+    WAYPOINT_SERVER_ADDR  = var.encrypted_waypoint_address
+    WAYPOINT_SERVER_TOKEN = var.encrypted_waypoint_token
+  }
+  environment     = github_repository_environment.waypoint_environment.environment
   repository      = github_repository.templated_app_repository.name
-  secret_name     = "WAYPOINT_SERVER_TOKEN"
-  encrypted_value = var.encrypted_waypoint_token
+  secret_name     = each.key
+  encrypted_value = each.value
 }
 
 data "aws_iam_policy_document" "assume_role" {

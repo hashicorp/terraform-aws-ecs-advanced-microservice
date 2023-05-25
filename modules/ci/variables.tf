@@ -47,8 +47,12 @@ variable "encrypted_waypoint_address" {
   description = "The address of the Waypoint server. This will be stored in the new repo's secrets."
   sensitive   = true
 }
+
 variable "encrypted_waypoint_token" {
   type        = string
-  description = "A Waypoint token with access to your server. This will be stored in the new repo's secrets."
+  description = <<EOF
+A Waypoint token with access to your server. This will be stored in the new
+repo's secrets."
+EOF
   sensitive   = true
 }
