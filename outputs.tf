@@ -18,3 +18,7 @@ output "ecr_uri" {
 output "acm_cert_arn" {
   value = aws_acm_certificate.alb_cert.arn
 }
+
+output "db" {
+  value = module.database
+}

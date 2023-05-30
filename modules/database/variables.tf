@@ -21,3 +21,8 @@ variable "prod_vpc_id" {
 variable "vault_cidr" {
   type = string
 }
+
+variable "db_name" {
+  type = string
+  default = "appdb"
+}

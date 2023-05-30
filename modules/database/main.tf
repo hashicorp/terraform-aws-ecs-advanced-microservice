@@ -56,7 +56,7 @@ module "dev_database" {
   allocated_storage      = 20
   username               = "app"
   publicly_accessible    = false
-  db_name                = "appdb"
+  db_name                = var.db_name
   skip_final_snapshot    = true
   subnet_ids             = var.dev_db_subnets
   vpc_security_group_ids = [aws_security_group.dev_vault_ingress.id]
@@ -75,7 +75,7 @@ module "prod_database" {
   allocated_storage      = 20
   username               = "app"
   publicly_accessible    = false
-  db_name                = "appdb"
+  db_name                = var.db_name
   skip_final_snapshot    = true
   subnet_ids             = var.prod_db_subnets
   vpc_security_group_ids = [aws_security_group.prod_vault_ingress.id]

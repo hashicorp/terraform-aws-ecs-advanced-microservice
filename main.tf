@@ -81,6 +81,9 @@ resource "aws_acm_certificate" "alb_cert" {
   certificate_body = tls_self_signed_cert.tls_cert.cert_pem
 }
 
+# TODO: Add a bastion host for dev - the dev ALB is not exposed to the internet
+# A bastion host would enable the developer to test their deployed service
+
 # Creates resources for application to run in a dev environment
 module "dev" {
   source  = "hashicorp/waypoint-ecs/aws"
