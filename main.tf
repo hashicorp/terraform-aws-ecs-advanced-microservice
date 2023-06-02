@@ -49,6 +49,10 @@ module "secrets" {
 
 # Creates dashboards and alerts
 module "telemetry" {
+  providers = {
+    vault.dev  = vault.dev
+    vault.prod = vault.prod
+  }
   source                            = "./modules/telemetry"
   app_name                          = var.waypoint_project
   aws_account_id                    = var.aws_account_id
@@ -92,7 +96,7 @@ resource "aws_acm_certificate" "alb_cert" {
 # Creates resources for application to run in a dev environment
 module "dev" {
   source  = "hashicorp/waypoint-ecs/aws"
-  version = "0.0.1"
+  version = "0.0.2"
 
   # App-specific config
   waypoint_project = local.lowercased_waypoint_project
@@ -105,12 +109,13 @@ module "dev" {
   create_ecr   = false # Prod creates the ecr registry
 
   # Existing infrastructure
-  aws_region       = var.aws_region
-  vpc_id           = data.tfe_outputs.org_day_zero_infra.values.vpc_id["dev"]
-  public_subnets   = data.tfe_outputs.org_day_zero_infra.values.public_subnets["dev"]
-  private_subnets  = data.tfe_outputs.org_day_zero_infra.values.private_subnets["dev"]
-  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.values.ecs_cluster_name["dev"]
-  log_group_name   = data.tfe_outputs.org_day_zero_infra.values.log_group_name["dev"]
+  aws_region                   = var.aws_region
+  vpc_id                       = data.tfe_outputs.org_day_zero_infra.values.vpc_id["dev"]
+  public_subnets               = data.tfe_outputs.org_day_zero_infra.values.public_subnets["dev"]
+  private_subnets              = data.tfe_outputs.org_day_zero_infra.values.private_subnets["dev"]
+  ecs_cluster_name             = data.tfe_outputs.org_day_zero_infra.values.ecs_cluster_name["dev"]
+  log_group_name               = data.tfe_outputs.org_day_zero_infra.values.log_group_name["dev"]
+  task_role_custom_policy_arns = [data.tfe_outputs.org_day_zero_infra.values.datadog_iam_policy_arn]
 
   tags = {
     env      = "dev"
@@ -123,7 +128,7 @@ module "dev" {
 # Creates resources for application to run in a prod environment
 module "prod" {
   source  = "hashicorp/waypoint-ecs/aws"
-  version = "0.0.1"
+  version = "0.0.2"
 
   # App-specific config
   waypoint_project = local.lowercased_waypoint_project
@@ -137,12 +142,13 @@ module "prod" {
   force_delete_ecr = true
 
   # Existing infrastructure
-  aws_region       = var.aws_region
-  vpc_id           = data.tfe_outputs.org_day_zero_infra.values.vpc_id["prod"]
-  public_subnets   = data.tfe_outputs.org_day_zero_infra.values.public_subnets["prod"]
-  private_subnets  = data.tfe_outputs.org_day_zero_infra.values.private_subnets["prod"]
-  ecs_cluster_name = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.ecs_cluster_name["prod"]
-  log_group_name   = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.log_group_name["prod"]
+  aws_region                   = var.aws_region
+  vpc_id                       = data.tfe_outputs.org_day_zero_infra.values.vpc_id["prod"]
+  public_subnets               = data.tfe_outputs.org_day_zero_infra.values.public_subnets["prod"]
+  private_subnets              = data.tfe_outputs.org_day_zero_infra.values.private_subnets["prod"]
+  ecs_cluster_name             = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.ecs_cluster_name["prod"]
+  log_group_name               = data.tfe_outputs.org_day_zero_infra.nonsensitive_values.log_group_name["prod"]
+  task_role_custom_policy_arns = [data.tfe_outputs.org_day_zero_infra.values.datadog_iam_policy_arn]
 
   tags = {
     env      = "prod"

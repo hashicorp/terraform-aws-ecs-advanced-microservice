@@ -22,7 +22,3 @@ output "acm_cert_arn" {
 output "db" {
   value = module.database
 }
-
-output "datadog_iam_policy_arn" {
-  value = data.tfe_outputs.org_day_zero_infra.values.datadog_iam_policy_arn
-}
