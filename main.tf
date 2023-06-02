@@ -49,9 +49,14 @@ module "secrets" {
 
 # Creates dashboards and alerts
 module "telemetry" {
-  source         = "./modules/telemetry"
-  app_name       = var.waypoint_project
-  aws_account_id = var.aws_account_id
+  source                            = "./modules/telemetry"
+  app_name                          = var.waypoint_project
+  aws_account_id                    = var.aws_account_id
+  vault_dev_kv_secrets_engine_path  = module.secrets.vault_dev_kv_secrets_engine_path
+  vault_prod_kv_secrets_engine_path = module.secrets.vault_prod_kv_secrets_engine_path
+
+  // TODO: Use an API key which is not the same API key used to auth the provider
+  datadog_api_key = var.datadog_api_key
 }
 
 resource "tls_private_key" "tls_private_key" {
