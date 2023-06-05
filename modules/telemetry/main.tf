@@ -302,8 +302,6 @@ resource "datadog_dashboard" "app_metrics" {
       y               = 5
     }
   }
-
-  # TODO: Dashboard widgets
 }
 
 resource "vault_generic_secret" "dev_datadog_key" {

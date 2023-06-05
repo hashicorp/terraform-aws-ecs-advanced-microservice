@@ -1,3 +1,3 @@
 locals {
-  db_role_name = "${var.app_name}-role"
+  db_role_name = "${var.waypoint_project}-role"
 }

@@ -74,7 +74,9 @@ variable "git_repo_visibility" {
 }
 
 variable "aws_region" {
-  default = "us-east-2"
+  type        = string
+  default     = "us-east-2"
+  description = "The AWS region where the app infrastructure will be created.s"
 }
 
 variable "tfc_org" {
@@ -93,13 +95,15 @@ variable "vault_tfc_workspace_name" {
 }
 
 variable "datadog_api_key" {
-  type      = string
-  sensitive = true
+  type        = string
+  sensitive   = true
+  description = "The DataDog API key which authenticates the Terraform provider, and DataDog agent."
 }
 
 variable "datadog_app_key" {
-  type      = string
-  sensitive = true
+  type        = string
+  sensitive   = true
+  description = "The DataDog app key which authenticates the Terraform provider."
 }
 
 variable "waypoint_address" {

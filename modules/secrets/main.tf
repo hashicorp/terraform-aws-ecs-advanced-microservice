@@ -55,7 +55,7 @@ EOF
 ### SECRETS ENGINES ###
 resource "vault_mount" "dev_app_kv" {
   provider = vault.dev
-  path     = "${var.app_name}-kv"
+  path     = "${var.waypoint_project}-kv"
   type     = "kv-v2"
 }
 
@@ -67,7 +67,7 @@ resource "vault_generic_secret" "dev_env" {
 
 resource "vault_mount" "prod_app_kv" {
   provider = vault.prod
-  path     = "${var.app_name}-kv"
+  path     = "${var.waypoint_project}-kv"
   type     = "kv-v2"
 }
 

@@ -1,13 +1,27 @@
-variable "repo_name" {
-  type = string
+variable "waypoint_project" {
+  type        = string
+  description = <<EOF
+Name of the Waypoint project. This will be hte name of the GitHub repo which is
+created.
+EOF
 }
 
 variable "github_org_name" {
-  type = string
+  type        = string
+  description = <<EOF
+The GitHub owner of the template GitHub repository and the owner of the
+repository to be created. This token needs permissions to create, update and
+delete repos. The template GitHub repo is also expected to be in this org.
+EOF
 }
 
 variable "template_repo_name" {
-  type = string
+  type        = string
+  description = <<EOF
+The name of the GitHub repository which will be used as a template for the repo
+which is created for the app. It is expected to be in the same GitHub org as the
+repository to be created.
+EOF
 }
 
 variable "github_token" {

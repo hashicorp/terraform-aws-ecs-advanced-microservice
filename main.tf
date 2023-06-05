@@ -2,7 +2,7 @@
 # Actions
 module "ci" {
   source              = "./modules/ci"
-  repo_name           = var.waypoint_project
+  waypoint_project    = var.waypoint_project
   template_repo_name  = "waypoint-template-go-protobuf-api"
   github_org_name     = var.github_repo_owner
   github_token        = var.github_token
@@ -23,7 +23,7 @@ module "database" {
     vault.prod = vault.prod
   }
   source                 = "./modules/database"
-  app_name               = var.waypoint_project
+  waypoint_project       = var.waypoint_project
   dev_db_subnets         = data.tfe_outputs.org_day_zero_infra.values.database_subnets["dev"]
   prod_db_subnets        = data.tfe_outputs.org_day_zero_infra.values.database_subnets["prod"]
   dev_vpc_id             = data.tfe_outputs.org_day_zero_infra.values.vpc_id["dev"]
@@ -41,7 +41,7 @@ module "secrets" {
     vault.prod = vault.prod
   }
   source                             = "./modules/secrets"
-  app_name                           = var.waypoint_project
+  waypoint_project                   = var.waypoint_project
   dev_db_secrets_engine_policy_name  = module.database.dev_db_secrets_engine_policy_name
   prod_db_secrets_engine_policy_name = module.database.prod_db_secrets_engine_policy_name
   vault_dev_aws_auth_method_path     = data.tfe_outputs.vault.values.vault_dev_aws_auth_method_path
@@ -56,7 +56,7 @@ module "telemetry" {
     vault.prod = vault.prod
   }
   source                            = "./modules/telemetry"
-  waypoint_project                          = var.waypoint_project
+  waypoint_project                  = var.waypoint_project
   aws_account_id                    = var.aws_account_id
   vault_dev_kv_secrets_engine_path  = module.secrets.vault_dev_kv_secrets_engine_path
   vault_prod_kv_secrets_engine_path = module.secrets.vault_prod_kv_secrets_engine_path
