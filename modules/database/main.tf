@@ -75,7 +75,7 @@ resource "aws_security_group" "prod_app_ingress" {
 module "dev_database" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier             = lower("${var.app_name}-dev-database")
+  identifier             = lower("${var.waypoint_project}-dev-database")
   engine                 = "postgres"
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group
@@ -94,7 +94,7 @@ module "dev_database" {
 module "prod_database" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier             = lower("${var.app_name}-prod-database")
+  identifier             = lower("${var.waypoint_project}-prod-database")
   engine                 = "postgres"
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group
@@ -112,10 +112,10 @@ module "prod_database" {
 
 resource "vault_database_secrets_mount" "dev_database_secrets_engine" {
   provider = vault.dev
-  path     = "${var.app_name}-database"
+  path     = "${var.waypoint_project}-database"
 
   postgresql {
-    name              = "${var.app_name}-database"
+    name              = "${var.waypoint_project}-database"
     connection_url    = "postgresql://{{username}}:{{password}}@${module.dev_database.db_instance_endpoint}/appdb"
     verify_connection = true
     username          = module.dev_database.db_instance_username
@@ -137,10 +137,10 @@ resource "vault_database_secret_backend_role" "dev_app_role" {
 
 resource "vault_database_secrets_mount" "prod_database_secrets_engine" {
   provider = vault.prod
-  path     = "${var.app_name}-database"
+  path     = "${var.waypoint_project}-database"
 
   postgresql {
-    name              = "${var.app_name}-database"
+    name              = "${var.waypoint_project}-database"
     connection_url    = "postgresql://{{username}}:{{password}}@${module.prod_database.db_instance_endpoint}/appdb"
     verify_connection = true
     username          = module.prod_database.db_instance_username
@@ -162,7 +162,7 @@ resource "vault_database_secret_backend_role" "prod_app_role" {
 
 resource "vault_policy" "dev_app_db_policy" {
   provider = vault.dev
-  name     = "${var.app_name}-db-policy"
+  name     = "${var.waypoint_project}-db-policy"
   policy   = <<EOF
 path "${vault_database_secrets_mount.dev_database_secrets_engine.path}/${vault_database_secret_backend_role.dev_app_role.name}" {
   capabilities = [ "read", "create" ]
@@ -172,7 +172,7 @@ EOF
 
 resource "vault_policy" "prod_app_db_policy" {
   provider = vault.prod
-  name     = "${var.app_name}-db-policy"
+  name     = "${var.waypoint_project}-db-policy"
   policy   = <<EOF
 path "${vault_database_secrets_mount.prod_database_secrets_engine.path}/${vault_database_secret_backend_role.prod_app_role.name}" {
   capabilities = [ "read", "create" ]

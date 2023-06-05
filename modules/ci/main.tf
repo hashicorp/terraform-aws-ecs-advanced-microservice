@@ -1,5 +1,5 @@
 resource "github_repository" "templated_app_repository" {
-  name = var.repo_name
+  name = var.waypoint_project
 
   visibility = var.git_repo_visibility
 
@@ -7,9 +7,9 @@ resource "github_repository" "templated_app_repository" {
     command     = "./scripts/render-repo.sh"
     interpreter = ["bash"]
     environment = {
-      WAYPOINT_PROJECT_NAME = var.repo_name
+      WAYPOINT_PROJECT_NAME = var.waypoint_project
       # the lower-cased version of the project name is needed for AWS ECR login
-      WAYPOINT_PROJECT_NAME_LOWER = lower(var.repo_name)
+      WAYPOINT_PROJECT_NAME_LOWER = lower(var.waypoint_project)
       GITHUB_TOKEN                = var.github_token
       OWNER                       = var.github_org_name
       TEMPLATE_REPO_NAME          = var.template_repo_name
@@ -25,7 +25,7 @@ resource "github_repository" "templated_app_repository" {
     command     = "./scripts/trigger-repo-init.sh"
     interpreter = ["bash"]
     environment = {
-      WAYPOINT_PROJECT_NAME = var.repo_name
+      WAYPOINT_PROJECT_NAME = var.waypoint_project
       GITHUB_TOKEN          = var.github_token
       OWNER                 = var.github_org_name
     }
@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "assume_role" {
 
     condition {
       test     = "StringLike"
-      values   = ["repo:${var.github_org_name}/${var.repo_name}:*"]
+      values   = ["repo:${var.github_org_name}/${var.waypoint_project}:*"]
       variable = "token.actions.githubusercontent.com:sub"
     }
 
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "policy" {
     ]
     ## TODO: Use an input var with the ARN of the ECR, rather than constructing it here
     resources = [
-      "arn:aws:ecr:${var.aws_region}:${var.aws_account_id}:repository/${lower(var.repo_name)}"
+      "arn:aws:ecr:${var.aws_region}:${var.aws_account_id}:repository/${lower(var.waypoint_project)}"
     ]
   }
 
@@ -103,7 +103,7 @@ data "aws_iam_policy_document" "policy" {
 }
 
 resource "aws_iam_policy" "github_actions_policy_ecr" {
-  name   = "${var.repo_name}-github-actions-ecr-push-policy"
+  name   = "${var.waypoint_project}-github-actions-ecr-push-policy"
   policy = data.aws_iam_policy_document.policy.json
 }
 
