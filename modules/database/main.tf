@@ -1,5 +1,5 @@
 resource "aws_security_group" "dev_vault_ingress" {
-  name        = "dev_database_ingress_vault"
+  name        = "${local.name}-dev_database_ingress_vault"
   description = "Allow ingress traffic from Vault to RDS for dynamic secrets"
 
   vpc_id = var.dev_vpc_id
@@ -22,7 +22,7 @@ resource "aws_security_group" "dev_vault_ingress" {
 }
 
 resource "aws_security_group" "dev_app_ingress" {
-  name        = "dev_database_ingress_app"
+  name        = "${local.name}-dev_database_ingress_app"
   description = "Allow ingress traffic from app running in ECS dev environment"
 
   vpc_id = var.dev_vpc_id
@@ -36,7 +36,7 @@ resource "aws_security_group" "dev_app_ingress" {
 }
 
 resource "aws_security_group" "prod_vault_ingress" {
-  name        = "prod_database_ingress_vault"
+  name        = "${local.name}-prod_database_ingress_vault"
   description = "Allow ingress traffic from Vault to RDS for dynamic secrets"
 
   vpc_id = var.prod_vpc_id
@@ -59,7 +59,7 @@ resource "aws_security_group" "prod_vault_ingress" {
 }
 
 resource "aws_security_group" "prod_app_ingress" {
-  name        = "prod_database_ingress_app"
+  name        = "${local.name}-prod_database_ingress_app"
   description = "Allow ingress traffic from app running in ECS prod environment"
 
   vpc_id = var.prod_vpc_id
@@ -76,7 +76,7 @@ module "dev_database" {
   source = "terraform-aws-modules/rds/aws"
   version = "5.9.0"
 
-  identifier             = lower("${var.waypoint_project}-dev-database")
+  identifier             = "${local.name}-dev-database"
   engine                 = "postgres"
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group
@@ -96,7 +96,7 @@ module "prod_database" {
   source = "terraform-aws-modules/rds/aws"
   version = "5.9.0"
 
-  identifier             = lower("${var.waypoint_project}-prod-database")
+  identifier             = "${local.name}-prod-database"
   engine                 = "postgres"
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group
