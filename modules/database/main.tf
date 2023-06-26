@@ -74,6 +74,7 @@ resource "aws_security_group" "prod_app_ingress" {
 
 module "dev_database" {
   source = "terraform-aws-modules/rds/aws"
+  version = "5.9.0"
 
   identifier             = lower("${var.waypoint_project}-dev-database")
   engine                 = "postgres"
@@ -93,6 +94,7 @@ module "dev_database" {
 
 module "prod_database" {
   source = "terraform-aws-modules/rds/aws"
+  version = "5.9.0"
 
   identifier             = lower("${var.waypoint_project}-prod-database")
   engine                 = "postgres"
