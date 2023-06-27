@@ -32,17 +32,11 @@ resource "github_repository" "templated_app_repository" {
   }
 }
 
-resource "github_repository_environment" "waypoint_environment" {
-  environment = "waypoint"
-  repository  = github_repository.templated_app_repository.name
-}
-
-resource "github_actions_environment_secret" "waypoint_secrets" {
+resource "github_actions_secret" "waypoint_secrets" {
   for_each = {
     WAYPOINT_SERVER_ADDR  = var.waypoint_address
     WAYPOINT_SERVER_TOKEN = var.waypoint_token
   }
-  environment     = github_repository_environment.waypoint_environment.environment
   repository      = github_repository.templated_app_repository.name
   secret_name     = each.key
   plaintext_value = each.value
