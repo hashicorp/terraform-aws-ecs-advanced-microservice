@@ -22,3 +22,9 @@ output "acm_cert_arn" {
 output "db" {
   value = module.database
 }
+
+output "datadog_api_key" {
+  value = var.datadog_api_key
+  description = "API key for sidecar processes to ship telemetry to datadog"
+  sensitive = true
+}
