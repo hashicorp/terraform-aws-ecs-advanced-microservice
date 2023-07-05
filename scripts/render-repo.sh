@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (c) HashiCorp, Inc.
+
 # This script requires the git CLI, sed, and rename in order to function
 set -x
 

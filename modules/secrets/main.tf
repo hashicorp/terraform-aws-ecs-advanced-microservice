@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 ### AUTH METHODS ###
 # TODO: GetCallerIdentity permission
 resource "vault_aws_auth_backend_role" "vault_dev_aws_auth_backend_role" {
