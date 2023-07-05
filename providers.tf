@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 provider "aws" {
   # Set env vars
   region = var.aws_region

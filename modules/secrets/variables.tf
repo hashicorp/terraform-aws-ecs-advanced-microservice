@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 variable "waypoint_project" {
   type        = string
   description = <<EOF

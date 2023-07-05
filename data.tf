@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 data "tfe_outputs" "org_day_zero_infra" {
   organization = var.tfc_org
   workspace    = var.day_zero_infra_tfc_workspace_name
