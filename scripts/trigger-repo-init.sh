@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (c) HashiCorp, Inc.
+
 set -x
 
 # List repository workflows, and get the ID of the workflow named repo-init

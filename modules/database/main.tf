@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 resource "aws_security_group" "dev_vault_ingress" {
   name        = "${local.name}-dev_database_ingress_vault"
   description = "Allow ingress traffic from Vault to RDS for dynamic secrets"

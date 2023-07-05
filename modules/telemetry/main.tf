@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 resource "datadog_dashboard" "app_metrics" {
   title       = var.waypoint_project
   layout_type = "ordered"

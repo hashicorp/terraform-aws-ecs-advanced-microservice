@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 resource "github_repository" "templated_app_repository" {
   name = var.waypoint_project
 

@@ -1,3 +1,5 @@
+# Copyright (c) HashiCorp, Inc.
+
 # Creates the app code repo from a template with CI configured for GitHub
 # Actions
 module "ci" {
