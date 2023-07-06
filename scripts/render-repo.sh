@@ -8,11 +8,6 @@ set -x
 git config --global user.name "$GIT_USER"
 git config --global user.email "$GIT_EMAIL"
 
-# Clone template repo, and push duplicate repo
-git clone --bare https://oauth2:"$GITHUB_TOKEN"@github.com/"$OWNER"/"$TEMPLATE_REPO_NAME"
-cd "$TEMPLATE_REPO_NAME".git
-git push --mirror https://oauth2:"$GITHUB_TOKEN"@github.com/"$OWNER"/"$WAYPOINT_PROJECT_NAME"
-
 # Installs rename
 mkdir /tmp/install-rename
 curl -o /tmp/install-rename/utils.deb http://launchpadlibrarian.net/360849155/util-linux_2.31.1-0.4ubuntu3_amd64.deb
