@@ -5,6 +5,12 @@ resource "github_repository" "templated_app_repository" {
 
   visibility = var.git_repo_visibility
 
+  template {
+    owner                = var.github_org_name
+    repository           = var.template_repo_name
+    include_all_branches = false # Script only templates the main branch
+  }
+
   provisioner "local-exec" {
     command     = "./scripts/render-repo.sh"
     interpreter = ["bash"]
