@@ -5,6 +5,12 @@ resource "github_repository" "templated_app_repository" {
 
   visibility = var.git_repo_visibility
 
+  # Other resources must be in place for actions to trigger successfully
+  depends_on = [
+    github_actions_secret.waypoint_secrets,
+    aws_iam_role_policy_attachment.github_actions_role_policy_attachment,
+  ]
+
   template {
     owner                = var.github_org_name
     repository           = var.template_repo_name
