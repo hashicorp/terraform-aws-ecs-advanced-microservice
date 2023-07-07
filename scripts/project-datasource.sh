@@ -37,13 +37,12 @@ then
 fi
 
 
-# Install the latest Waypoint CLI
-wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt -y install waypoint
+# Install the Waypoint CLI
+wget -q https://releases.hashicorp.com/waypoint/0.11.2/waypoint_0.11.2_linux_amd64.zip
+unzip waypoint_0.11.2_linux_amd64.zip
 
 # Create a CLI context to hook up to the HCP Waypoint server
-waypoint context create \
+./waypoint context create \
   -server-addr=api.hashicorp.cloud:443 \
   -server-auth-token="$WAYPOINT_SERVER_TOKEN" \
   -server-require-auth=true \
@@ -51,10 +50,10 @@ waypoint context create \
   -set-default \
   hcp-waypoint
 
-waypoint context verify
+./waypoint context verify
 
 # Configure the project datasource settings
-waypoint project apply \
+./waypoint project apply \
   -data-source=git \
   -git-url=https://github.com/${OWNER}/${WAYPOINT_PROJECT_NAME} \
   -git-auth-type=basic \
