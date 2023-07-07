@@ -4,6 +4,17 @@
 # Actions
 module "ci" {
   source              = "./modules/ci"
+
+  # Creating the repo triggers CI to run the first deployment,
+  # which we don't want to happen until all infrastructure is in place.
+  depends_on = [
+    "module.database",
+    "module.secrets",
+    "module.telemetry",
+    "module.dev",
+    "module.prod",
+  ]
+
   waypoint_project    = var.waypoint_project
   template_repo_name  = "waypoint-template-go-protobuf-api"
   github_org_name     = var.github_repo_owner
