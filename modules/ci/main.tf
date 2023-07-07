@@ -5,17 +5,29 @@ resource "github_repository" "templated_app_repository" {
 
   visibility = var.git_repo_visibility
 
-  # Other resources must be in place for actions to trigger successfully
-  depends_on = [
-    github_actions_secret.waypoint_secrets,
-    aws_iam_role_policy_attachment.github_actions_role_policy_attachment,
-  ]
-
   template {
     owner                = var.github_org_name
     repository           = var.template_repo_name
     include_all_branches = false # Script only templates the main branch
   }
+}
+
+resource "github_actions_secret" "waypoint_secrets" {
+  for_each = {
+    WAYPOINT_SERVER_ADDR  = var.waypoint_address
+    WAYPOINT_SERVER_TOKEN = var.waypoint_token
+  }
+  repository      = github_repository.templated_app_repository.name
+  secret_name     = each.key
+  plaintext_value = each.value
+}
+
+resource "null_resource" "render_github_repo_template" {
+  # Other resources must be in place for actions to trigger successfully
+  depends_on = [
+    github_repository.templated_app_repository,
+    aws_iam_role_policy_attachment.github_actions_role_policy_attachment,
+  ]
 
   provisioner "local-exec" {
     command     = "./scripts/render-repo.sh"
@@ -58,16 +70,6 @@ resource "github_repository" "templated_app_repository" {
       OWNER                 = var.github_org_name
     }
   }
-}
-
-resource "github_actions_secret" "waypoint_secrets" {
-  for_each = {
-    WAYPOINT_SERVER_ADDR  = var.waypoint_address
-    WAYPOINT_SERVER_TOKEN = var.waypoint_token
-  }
-  repository      = github_repository.templated_app_repository.name
-  secret_name     = each.key
-  plaintext_value = each.value
 }
 
 data "aws_iam_policy_document" "assume_role" {
