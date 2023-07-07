@@ -29,6 +29,20 @@ resource "github_repository" "templated_app_repository" {
     }
   }
 
+  # NOTE(izaak): This step will be replaced in the future with a waypoint terraform
+  # provider resource
+  provisioner "local-exec" {
+    command     = "./scripts/project-datasource.sh"
+    interpreter = ["bash"]
+    environment = {
+      WAYPOINT_SERVER_TOKEN = var.waypoint_token
+      WAYPOINT_PROJECT_NAME = var.waypoint_project
+      OWNER                 = var.github_org_name
+      GITHUB_TOKEN          = var.github_token
+      GIT_USER              = var.git_user
+    }
+  }
+
   provisioner "local-exec" {
     command     = "./scripts/trigger-repo-init.sh"
     interpreter = ["bash"]
