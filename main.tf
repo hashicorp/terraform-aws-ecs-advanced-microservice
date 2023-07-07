@@ -8,11 +8,11 @@ module "ci" {
   # Creating the repo triggers CI to run the first deployment,
   # which we don't want to happen until all infrastructure is in place.
   depends_on = [
-    "module.database",
-    "module.secrets",
-    "module.telemetry",
-    "module.dev",
-    "module.prod",
+    module.database,
+    module.secrets,
+    module.telemetry,
+    module.dev,
+    module.prod,
   ]
 
   waypoint_project    = var.waypoint_project
