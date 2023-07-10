@@ -33,7 +33,7 @@ resource "null_resource" "render_github_repo_template" {
     command     = "./scripts/render-repo.sh"
     interpreter = ["bash"]
     environment = {
-      WAYPOINT_PROJECT_NAME = var.waypoint_project
+      WAYPOINT_PROJECT_NAME       = var.waypoint_project
       # the lower-cased version of the project name is needed for AWS ECR login
       WAYPOINT_PROJECT_NAME_LOWER = lower(var.waypoint_project)
       GITHUB_TOKEN                = var.github_token
@@ -46,6 +46,16 @@ resource "null_resource" "render_github_repo_template" {
       AWS_ACCOUNT_ID              = var.aws_account_id
     }
   }
+}
+
+resource "null_resource" "waypoint_datasource" {
+
+  # Other resources must be in place for actions to trigger successfully
+  depends_on = [
+    null_resource.render_github_repo_template
+  ]
+  command     = "./scripts/render-repo.sh"
+  interpreter = ["bash"]
 
   # NOTE(izaak): This step will be replaced in the future with a waypoint terraform
   # provider resource
@@ -60,6 +70,14 @@ resource "null_resource" "render_github_repo_template" {
       GIT_USER              = var.git_user
     }
   }
+}
+
+resource "null_resource" "initial_deploy" {
+  depends_on = [
+    null_resource.waypoint_datasource
+  ]
+  command     = "./scripts/render-repo.sh"
+  interpreter = ["bash"]
 
   provisioner "local-exec" {
     command     = "./scripts/trigger-repo-init.sh"
