@@ -54,8 +54,6 @@ resource "null_resource" "waypoint_datasource" {
   depends_on = [
     null_resource.render_github_repo_template
   ]
-  command     = "./scripts/render-repo.sh"
-  interpreter = ["bash"]
 
   # NOTE(izaak): This step will be replaced in the future with a waypoint terraform
   # provider resource
@@ -76,8 +74,6 @@ resource "null_resource" "initial_deploy" {
   depends_on = [
     null_resource.waypoint_datasource
   ]
-  command     = "./scripts/render-repo.sh"
-  interpreter = ["bash"]
 
   provisioner "local-exec" {
     command     = "./scripts/trigger-repo-init.sh"
