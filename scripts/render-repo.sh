@@ -52,3 +52,7 @@ find . -type f -exec rename.ul __wp_project__ $WAYPOINT_PROJECT_NAME {} +
 git add .
 git commit -m "init: Render repo template with Waypoint project name."
 git push origin
+
+# Give github a moment before moving on so that these changes take effect
+
+sleep 5
