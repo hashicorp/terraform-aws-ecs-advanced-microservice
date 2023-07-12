@@ -83,7 +83,7 @@ module "dev_database" {
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group
   major_engine_version   = "14"         # DB option group
-  instance_class         = "db.t4g.large"
+  instance_class         = "db.t2"
   allocated_storage      = 20
   username               = "app"
   publicly_accessible    = false
@@ -103,7 +103,7 @@ module "prod_database" {
   engine_version         = "14"
   family                 = "postgres14" # DB parameter group
   major_engine_version   = "14"         # DB option group
-  instance_class         = "db.t4g.large"
+  instance_class         = "db.t2"
   allocated_storage      = 20
   username               = "app"
   publicly_accessible    = false
