@@ -24,3 +24,13 @@ output "acm_cert_arn" {
 output "db" {
   value = module.database
 }
+
+output "appconfig_application" {
+  value = aws_appconfig_application.appconfig_application.id
+  description = "The ID of the AWS AppConfig application."
+}
+
+output "appconfig_configuration_profile" {
+  value = aws_appconfig_configuration_profile.appconfig_configuration_profile.id
+  description = "The ID of the AWS AppConfig configuration profile."
+}
