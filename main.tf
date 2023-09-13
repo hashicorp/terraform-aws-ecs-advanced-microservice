@@ -173,4 +173,30 @@ resource "aws_security_group_rule" "prod_ingress_rule" {
   cidr_blocks       = ["0.0.0.0/0"]
 }
 
-## TODO: Waypoint config sources for the two Vault clusters, Waypoint runners, and runner profiles
+// AppConfig resources. See: https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-integration-containers-agent.html
+resource "aws_appconfig_application" "appconfig_application" {
+  name        = "${waypoint_project}"
+  description = "${waypoint_project} AppConfig Application"
+
+  tags = {
+    Project = "${waypoint_project}"
+  }
+}
+
+resource "aws_appconfig_configuration_profile" "appconfig_configuration_profile" {
+  application_id = aws_appconfig_application.appconfig_application.id
+  description    = "${waypoint_project} Configuration Profile"
+  name           = "${waypoint_project}"
+  location_uri   = "hosted"
+
+  validator {
+    type    = "JSON_SCHEMA"
+  }
+
+  tags = {
+    Type = "AppConfig Configuration Profile"
+    Project = "${waypoint_project}"
+  }
+}
+
+
