@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 # This script requires the git CLI, sed, and rename in order to function
 set -x

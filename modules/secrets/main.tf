@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 ### AUTH METHODS ###
 # TODO: GetCallerIdentity permission
