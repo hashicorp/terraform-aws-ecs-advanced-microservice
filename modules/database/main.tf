@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 resource "aws_security_group" "dev_vault_ingress" {
   name        = "${local.name}-dev_database_ingress_vault"

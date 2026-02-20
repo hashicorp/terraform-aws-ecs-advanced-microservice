@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 # Creates the app code repo from a template with CI configured for GitHub
 # Actions

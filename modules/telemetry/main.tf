@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 resource "datadog_dashboard" "app_metrics" {
   title       = var.waypoint_project

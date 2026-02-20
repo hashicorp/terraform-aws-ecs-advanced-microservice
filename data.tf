@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 data "tfe_outputs" "org_day_zero_infra" {
   organization = var.tfc_org

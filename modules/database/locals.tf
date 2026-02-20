@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 locals {
   db_role_name = "${var.waypoint_project}-role"

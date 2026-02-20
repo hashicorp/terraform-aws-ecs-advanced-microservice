@@ -1,4 +1,4 @@
-# Copyright (c) HashiCorp, Inc.
+# Copyright IBM Corp. 2023
 
 resource "github_repository" "templated_app_repository" {
   name = var.waypoint_project
