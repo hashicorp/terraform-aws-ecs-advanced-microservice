@@ -1,4 +1,4 @@
-# Copyright IBM Corp. 2023
+# Copyright IBM Corp. 2023, 2026
 
 variable "waypoint_project" {
   type        = string

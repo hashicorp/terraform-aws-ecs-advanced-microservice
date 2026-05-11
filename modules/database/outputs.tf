@@ -1,4 +1,4 @@
-# Copyright IBM Corp. 2023
+# Copyright IBM Corp. 2023, 2026
 
 output "dev_db_secrets_engine_policy_name" {
   value = vault_policy.dev_app_db_policy.name
